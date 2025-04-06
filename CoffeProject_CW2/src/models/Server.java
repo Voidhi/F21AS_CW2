@@ -13,8 +13,8 @@ public class Server {
 	
 	
 	
-	public void assignCustomer(Customer c) {
-		this.isServingWho = c;
+	public void assignNewCustomer() {
+		this.isServingWho = MyData.getInstance().assignNextCustomer();
 	}
 	public void makeAvailable() {
 		this.isServingWho = null;

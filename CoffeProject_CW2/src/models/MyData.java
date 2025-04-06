@@ -1,11 +1,13 @@
 package models;
 
+import java.util.LinkedList;
+
 public class MyData implements Observable{
 	// Singleton :
 	private static MyData myInstance;
-	// TODO : add here other data..
+
 	private static final String csvPath = "";
-	
+	private LinkedList<Customer> myQueue;
 	
 	
 	
@@ -13,7 +15,10 @@ public class MyData implements Observable{
 	 * Private constructor - Thread-safe singleton
 	 * @param path
 	 */
-	private MyData(String path) {/*Initialisation, lecture des csv,,,*/}
+	private MyData(String path) {
+		myQueue = new LinkedList<>();
+		// TODO : init with csv files
+	}
 	/**
 	 * Public singleton accessor - Thread-safe singleton
 	 * @return unique instance
@@ -28,7 +33,13 @@ public class MyData implements Observable{
 	}
 	
 	
-	
+	public Customer assignNextCustomer() {return this.myQueue.poll();}	
+	public void addNewCustomertoQueue(Customer c) {
+		if(this.myQueue.contains(c)) {
+			System.out.println("Customer already in the queue");
+		}
+		this.myQueue.add(c);
+	}
 	
 	/**
 	 * Observator/MVC pattern

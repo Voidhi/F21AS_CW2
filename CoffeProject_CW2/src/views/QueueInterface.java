@@ -58,16 +58,16 @@ public class QueueInterface extends Application implements Observers {
 		VBox serverBox = new VBox();
 		serverBox.setSpacing(5);
 		serverBox.setPadding(new Insets(10));
-		serverBox.setStyle("-fx-border-color: #888; -fx-border-width: 0.5; -fx-border-radius: 2;");
+		serverBox.setStyle("-fx-border-color: #888; -fx-border-width: 0.5; -fx-border-radius: 5;");
 		serverBox.setAlignment(Pos.CENTER);
 		
 		Label nameLabel = new Label("Server : " + s.getName());
 		nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 		
 		Label taskLabel = new Label("Status : " + s.getIsServingWho()==null ? "Available" : ("Is serving : "+s.getIsServingWho().getName()));
-		
+
 		VBox order = new VBox();
-		
+		// TODO : complete here to show order...
 		
 		serverBox.getChildren().addAll(nameLabel, taskLabel, order);
 		myServersDisplay.getChildren().add(serverBox);
@@ -86,6 +86,7 @@ public class QueueInterface extends Application implements Observers {
 		titleBox.setPadding(new Insets(10));
 		
 		myQueueDisplay = new VBox();
+		myQueueDisplay.setStyle("-fx-border-color: #888; -fx-border-width: 0.5; -fx-border-radius: 5;");
 		
 		myServersDisplay = new TilePane();
 		myServersDisplay.setHgap(7);
@@ -93,7 +94,7 @@ public class QueueInterface extends Application implements Observers {
 		myServersDisplay.setPrefColumns(3);
 		
 		setSimulationSlider = new Slider(0.5, 3.0, 1.0);
-		setSimulationSlider.setPrefWidth(450);
+		setSimulationSlider.setMaxWidth(Double.MAX_VALUE);
 		setSimulationSlider.setShowTickLabels(true);
 		setSimulationSlider.setShowTickMarks(true);
 		setSimulationSlider.setMajorTickUnit(0.5);
@@ -102,8 +103,8 @@ public class QueueInterface extends Application implements Observers {
 		setSimulationSlider.setSnapToTicks(true);
 		HBox sliderBox = new HBox(setSimulationSlider);
 		sliderBox.setAlignment(Pos.CENTER);
-		sliderBox.setPadding(new Insets(5,5,5,5));
-		
+		sliderBox.setPadding(new Insets(20,15,20,15));
+		HBox.setHgrow(setSimulationSlider, Priority.ALWAYS); // so the width can be responsive
 		
 		layout = new VBox(2);
 		layout.setPadding(new Insets(10));
@@ -129,13 +130,17 @@ public class QueueInterface extends Application implements Observers {
         
         /* - - - - Tests : - - - - */
         // TODO : remove
-        Server s = new Server("A GreatServer");
         Customer c = new Customer("Jeremy");
-        s.assignCustomer(c);
+        Customer c1 = new Customer("Jeremy2.0_buthungrier");
+        MyData.getInstance().addNewCustomertoQueue(c);
+        MyData.getInstance().addNewCustomertoQueue(c1);
+        
+        Server s = new Server("A GreatServer");        
+        s.assignNewCustomer();
         addServerPanel(s);
-        Server s1 = new Server("Macron");
-        Customer c1 = new Customer("Chevrex");
-        s1.assignCustomer(c1);
+        
+        Server s1 = new Server("AnotherServer");
+        s1.assignNewCustomer();
         addServerPanel(s1);
 	}
 	

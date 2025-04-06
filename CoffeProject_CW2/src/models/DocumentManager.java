@@ -20,8 +20,8 @@ public class DocumentManager {
      * @return items - the LinkedList of items
      */
 
-    private static final String pathItems = "src/main/resources/csv/Items.csv";
-    private static final String pathCommands = "src/main/resources/csv/Commands.csv";
+    private static final String pathItems = "src/resources/Items.csv";
+    private static final String pathCommands = "src/resources/Commands.csv";
     public static HashMap<String,Items> ReadItemsCsv() { //This method reads the Items.csv file and returns the according list of items.
         HashMap<String,Items> items = new HashMap<>(); // The list of all available items
         String[] lineInfo = null; //gets all the data from a line, allowing to create the according item

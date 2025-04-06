@@ -7,16 +7,13 @@ public class MyData implements Observable{
 	private static MyData myInstance;
 
 	private static final String csvPath = "";
-	private LinkedList<Customer> myQueue;
-	
-	
+	private SharedQueue myQueue;
 	
 	/**
 	 * Private constructor - Thread-safe singleton
 	 * @param path
 	 */
 	private MyData(String path) {
-		myQueue = new LinkedList<>();
 		// TODO : init with csv files
 	}
 	/**
@@ -33,18 +30,9 @@ public class MyData implements Observable{
 	}
 	
 	
-	public Customer assignNextCustomer() {return this.myQueue.poll();}	
-	public void addNewCustomertoQueue(Customer c) {
-		if(this.myQueue.contains(c)) {
-			System.out.println("Customer already in the queue");
-		}
-		this.myQueue.add(c);
-	}
 	
 	/**
 	 * Observator/MVC pattern
 	 */
-	public void notifyObservers() {
-		
-	}
+	public void notifyObservers() {}
 }

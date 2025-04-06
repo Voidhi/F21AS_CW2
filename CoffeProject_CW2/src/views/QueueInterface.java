@@ -2,6 +2,7 @@ package views;
 
 import models.MyData;
 import models.Server;
+import models.SharedQueue;
 import models.Customer;
 
 
@@ -132,15 +133,17 @@ public class QueueInterface extends Application implements Observers {
         // TODO : remove
         Customer c = new Customer("Jeremy");
         Customer c1 = new Customer("Jeremy2.0_buthungrier");
-        MyData.getInstance().addNewCustomertoQueue(c);
-        MyData.getInstance().addNewCustomertoQueue(c1);
-        
-        Server s = new Server("A GreatServer");        
-        s.assignNewCustomer();
-        addServerPanel(s);
-        
+        Server s = new Server("A GreatServer");  
         Server s1 = new Server("AnotherServer");
-        s1.assignNewCustomer();
+        
+        try {
+        	SharedQueue.getInstance().enqueue(c);
+        	SharedQueue.getInstance().enqueue(c1);
+        	s.assignNewCustomer();
+        	s1.assignNewCustomer();
+        }catch(Exception e) {}
+        
+        addServerPanel(s);
         addServerPanel(s1);
 	}
 	

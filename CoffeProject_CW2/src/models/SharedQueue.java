@@ -3,34 +3,57 @@ package models;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import org.junit.jupiter.api.Order;
 
 public class SharedQueue {
+	// Singleton :
+	private static SharedQueue myInstance;
+		
+    private final Queue<Customer> queue = new LinkedList<>();
+    private final int capacity = 10; // optional max queue size
+    
+    /** Private constructor - Thread-safe singleton
+	 * @param path
+	 */
+	private SharedQueue() {}
+	/**
+	 * Public singleton accessor - Thread-safe singleton
+	 * @return unique instance
+	 */
+	public static SharedQueue getInstance() {
+		if (myInstance == null) 
+			synchronized(MyData.class) {
+				if (myInstance == null)
+					myInstance = new SharedQueue();
+			}
+		return myInstance;
+	}
+	
 
-    private final Queue<Order> queue = new LinkedList<>();
-    private final int capacity; // optional max queue size
-
-    public SharedQueue(int capacity) {
-        this.capacity = capacity;
-    }
-
-    // Producer adds order
-    public synchronized void enqueue(Order order) throws InterruptedException {
-        while (queue.size() >= capacity) {
-            wait(); // wait until space is available
-        }
-        queue.add(order);
+    /**
+     * Add a new customer to the queue
+     * @param order
+     * @throws InterruptedException
+     */
+    public synchronized void enqueue(Customer c) throws InterruptedException {
+    	if(this.queue.contains(c)) {
+			System.out.println("Customer already in the queue");
+			return;
+		}
+    	
+        while (queue.size() >= capacity) 
+            wait(); // wait until space is available      
+        queue.add(c);
         notifyAll(); // notify consumers
     }
 
-    // Consumer takes order
-    public synchronized Order dequeue() throws InterruptedException {
+    
+    public synchronized Customer dequeue() throws InterruptedException {
         while (queue.isEmpty()) {
             wait(); // wait until an order is available
         }
-        Order order = queue.poll();
+        Customer c = queue.poll();
         notifyAll(); // notify producer
-        return order;
+        return c;
     }
 
     // For logging, UI updates, or closing conditions

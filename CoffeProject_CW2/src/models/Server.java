@@ -13,8 +13,8 @@ public class Server {
 	
 	
 	
-	public void assignNewCustomer() {
-		this.isServingWho = MyData.getInstance().assignNextCustomer();
+	public void assignNewCustomer() throws InterruptedException {
+		this.isServingWho = SharedQueue.getInstance().dequeue();
 	}
 	public void makeAvailable() {
 		this.isServingWho = null;

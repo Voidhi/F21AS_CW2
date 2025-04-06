@@ -13,15 +13,18 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
 
 public class QueueInterface extends Application implements Observers {
 	// GUI element :
-	private BorderPane Screen; // top : title, Center : VBox layout, Bottom : slider
+	private BorderPane screen; // top : title, Center : VBox layout, Bottom : slider
 	private VBox layout; // up : current queue | down : servers list (Tilepane)
-	private TilePane myServers; // scrollable
-	private Label titleLabel;
+	private VBox myQueueDisplay;
+	private TilePane myServersDisplay; // scrollable
+	private Label title;
+	private Slider setSimulationSlider;
 	// Event : 
 	private ActionListener actionListener;
 	// Data :
@@ -50,13 +53,36 @@ public class QueueInterface extends Application implements Observers {
 	 */
 	@Override
 	public void start(Stage primaryStage){
-		// Init the composition of the scene :
-		Screen = new BorderPane();
-		layout = new VBox(2);
-		layout.setPadding(new Insets(10));;
+		/* Init the composition of the scene : */	
+		title = new Label("Coffe shop - Queue simulation");
+		title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 		
-		// Show the scene :
-		Scene scene = new Scene(layout, 400, 600);
+		myQueueDisplay = new VBox();
+		
+		myServersDisplay = new TilePane();
+		myServersDisplay.setHgap(7);
+		myServersDisplay.setVgap(7);
+		myServersDisplay.setPrefColumns(3);
+		
+		setSimulationSlider = new Slider(0.5, 2.0, 1.0);
+		setSimulationSlider.setShowTickLabels(true);
+		setSimulationSlider.setShowTickMarks(true);
+		setSimulationSlider.setMajorTickUnit(0.5);
+		setSimulationSlider.setBlockIncrement(0.1);
+		
+		layout = new VBox(2);
+		layout.setPadding(new Insets(10));
+		layout.getChildren().addAll(myQueueDisplay,myServersDisplay );
+		
+		screen = new BorderPane();
+		screen.setTop(title);
+		screen.setCenter(layout);
+		screen.setBottom(setSimulationSlider);
+		
+		
+		
+		/* Show the scene : */
+		Scene scene = new Scene(screen, 500, 700);
 		primaryStage.setTitle("Coffee Shop");
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(e -> {

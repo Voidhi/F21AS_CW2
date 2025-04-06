@@ -27,6 +27,9 @@ public class SharedQueue {
 			}
 		return myInstance;
 	}
+	public synchronized Queue<Customer> getQueue() throws InterruptedException{
+		return this.queue;
+	}
 	
 
     /**

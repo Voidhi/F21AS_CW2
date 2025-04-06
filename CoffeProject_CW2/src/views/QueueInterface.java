@@ -8,6 +8,7 @@ import models.Customer;
 
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Queue;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -24,6 +25,9 @@ public class QueueInterface extends Application implements Observers {
 	private BorderPane screen; // top : title, Center : VBox layout, Bottom : slider
 	private VBox layout; // up : current queue | down : servers list (Tilepane)
 	private VBox myQueueDisplay;
+	private HBox myQueue_Categories;
+	private VBox myQueue_CustomersNames;
+	private VBox myQueue_CustomersItems;
 	private TilePane myServersDisplay; // scrollable
 	private Label title;
 	private Slider setSimulationSlider;
@@ -37,17 +41,38 @@ public class QueueInterface extends Application implements Observers {
 		// TODO : link buttons to event :
 		// eg : mySlider.addActionListener(al);
 	}
-	// To receive info from the model MyData directly :
+	// To receive info from the models directly :
 	public void Update() {
 		// to update the info on the view
 		// eg. the queue, servers' stats...
-//		Platform.runLater(() -> {
-//          updateQueue(MyData.getInstance().getQueue());
-//          updateServers(MyData.getInstance().getQueue());			
-//		});
+		Platform.runLater(() -> {
+			try {
+				updateQueue(SharedQueue.getInstance().getQueue());
+		        //updateServers(SharedQueue.getInstance().getQueue());		
+			}catch(Exception e) {}       	
+		});
 	}
-	private void updateQueue(List<Customer> queue) {}
-	private void updateServers(List<Server> servers) {
+	private void updateQueue(Queue<Customer> queue) {
+		myQueueDisplay.getChildren().clear();
+		myQueue_CustomersNames.getChildren().clear();
+		myQueue_CustomersItems.getChildren().clear();
+		
+		Label numberInQueue = new Label("There is currently : " + queue.size() + " customers wainting in the queue");
+		numberInQueue.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+		
+	    for (Customer c : queue) {
+	    	Label name = new Label(c.getName());
+	        name.setStyle("-fx-padding: 5px; -fx-font-size: 12px;");
+	        myQueue_CustomersNames.getChildren().add(name);
+	        
+	        // TODO : affiche " _nbitems_ items" ici quand on aura les orders dans Customer
+	        Label items = new Label("has ___ items");
+	        items.setStyle("-fx-padding: 5px; -fx-font-size: 12px;");
+	        myQueue_CustomersItems.getChildren().add(items);
+	    }
+	    myQueueDisplay.getChildren().addAll(numberInQueue, myQueue_Categories);
+	}
+	private void updateServers(Queue<Server> servers) {
 	    myServersDisplay.getChildren().clear();
 	    for (Server s : servers) {
 	        addServerPanel(s);
@@ -88,6 +113,16 @@ public class QueueInterface extends Application implements Observers {
 		
 		myQueueDisplay = new VBox();
 		myQueueDisplay.setStyle("-fx-border-color: #888; -fx-border-width: 0.5; -fx-border-radius: 5;");
+		myQueueDisplay.setAlignment(Pos.CENTER);
+		myQueueDisplay.setPadding(new Insets(20,15,20,15));
+		myQueue_Categories = new HBox();
+		myQueue_Categories.setPadding(new Insets(10));
+		myQueue_Categories.setAlignment(Pos.CENTER);
+		myQueue_CustomersNames = new VBox();
+		myQueue_CustomersNames.setPadding(new Insets(0,15,0,15));
+		myQueue_CustomersItems = new VBox();
+		myQueue_CustomersItems.setPadding(new Insets(0,15,0,15));
+		myQueue_Categories.getChildren().addAll(myQueue_CustomersNames, myQueue_CustomersItems);
 		
 		myServersDisplay = new TilePane();
 		myServersDisplay.setHgap(7);
@@ -128,28 +163,33 @@ public class QueueInterface extends Application implements Observers {
         });
         primaryStage.show();
         
-        
-        /* - - - - Tests : - - - - */
-        // TODO : remove
-        Customer c = new Customer("Jeremy");
+        // TODO : remove :
+        Tests();
+	}
+	
+	
+	// TODO : remove
+	public void Tests() {
+		Customer c = new Customer("Jeremy");
         Customer c1 = new Customer("Jeremy2.0_buthungrier");
+        Customer c2 = new Customer("Jeremy3.0_isWaiting...");
+        Customer c3 = new Customer("Jeremy4.0_isWaitingEvenMore");
         Server s = new Server("A GreatServer");  
         Server s1 = new Server("AnotherServer");
         
         try {
         	SharedQueue.getInstance().enqueue(c);
         	SharedQueue.getInstance().enqueue(c1);
+        	SharedQueue.getInstance().enqueue(c2);
+        	SharedQueue.getInstance().enqueue(c3);
         	s.assignNewCustomer();
         	s1.assignNewCustomer();
-        }catch(Exception e) {}
-        
+        }catch(Exception e) {}        
+
+        Update();
         addServerPanel(s);
         addServerPanel(s1);
 	}
-	
-	
-	
-	
 	
 	public static void main(String[] args) {
         launch(args);        

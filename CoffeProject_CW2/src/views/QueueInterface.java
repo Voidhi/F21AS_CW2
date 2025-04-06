@@ -60,14 +60,21 @@ public class QueueInterface extends Application implements Observers {
 		Label numberInQueue = new Label("There is currently : " + queue.size() + " customers wainting in the queue");
 		numberInQueue.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 		
+		Label nameHeader = new Label("Name");
+		nameHeader.setStyle("-fx-font-weight: bold;");
+		Label orderHeader = new Label("Order");
+		orderHeader.setStyle("-fx-font-weight: bold;");
+		myQueue_CustomersNames.getChildren().add(nameHeader);
+		myQueue_CustomersItems.getChildren().add(orderHeader);
+		
 	    for (Customer c : queue) {
 	    	Label name = new Label(c.getName());
-	        name.setStyle("-fx-padding: 5px; -fx-font-size: 12px;");
+	        name.setStyle("-fx-font-size: 12px;");
 	        myQueue_CustomersNames.getChildren().add(name);
 	        
 	        // TODO : affiche " _nbitems_ items" ici quand on aura les orders dans Customer
 	        Label items = new Label("has ___ items");
-	        items.setStyle("-fx-padding: 5px; -fx-font-size: 12px;");
+	        items.setStyle("-fx-font-size: 12px;");
 	        myQueue_CustomersItems.getChildren().add(items);
 	    }
 	    myQueueDisplay.getChildren().addAll(numberInQueue, myQueue_Categories);
@@ -154,7 +161,7 @@ public class QueueInterface extends Application implements Observers {
 		
 		
 		/* Show the scene : */
-		Scene scene = new Scene(screen, 500, 500);
+		Scene scene = new Scene(screen, 430, 500);
 		primaryStage.setTitle("Coffee Shop");
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(e -> {        	

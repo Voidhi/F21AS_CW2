@@ -15,33 +15,35 @@ public class ServerThread implements Runnable {
     public void run() {
         Log logger = Log.getInstance();
 
-        logger.logEvent("Server " + id + " started.");
+        logger.logAndPrint("Server " + id + " started.");
+        System.out.println("Server thread loop started.");
 
         while (running) {
             try {
+                System.out.println("Waiting for customer...");
                 Customer customer = SharedQueue.getInstance().dequeue();  // Waits if empty
-                server.assignNewCustomer();  // sets isServingWho
-                logger.logEvent("Server " + id + " is now serving " + customer.getName());
+                server.assignNewCustomer(customer);  // sets isServingWho
+                logger.logAndPrint("Server " + id + " is now serving " + customer.getName());
 
                 // Simulate order processing time (2–4 seconds)
                 int delay = (int)(2000 + Math.random() * 2000);
                 Thread.sleep(delay);
 
-                logger.logEvent("Server " + id + " finished serving " + customer.getName());
+                logger.logAndPrint("Server " + id + " finished serving " + customer.getName());
                 server.makeAvailable();  // clear current customer
 
                 // Optional: notify GUI observers here
 
             } catch (InterruptedException e) {
-                logger.logEvent("Server " + id + " interrupted.");
+                logger.logAndPrint("Server " + id + " interrupted.");
                 Thread.currentThread().interrupt();
                 break;
             } catch (Exception e) {
-                logger.logEvent("Error in Server " + id + ": " + e.getMessage());
+                logger.logAndPrint("Error in Server " + id + ": " + e.getMessage());
             }
         }
 
-        logger.logEvent("Server " + id + " stopped.");
+        logger.logAndPrint("Server " + id + " stopped.");
     }
 
     public void stop() {

@@ -2,11 +2,13 @@ package views;
 
 import models.MyData;
 import models.Server;
+import models.ServerThread;
 import models.SharedQueue;
 import models.Customer;
 
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
@@ -34,6 +36,9 @@ public class QueueInterface extends Application implements Observers {
 	// Event : 
 	private ActionListener actionListener;
 	// Data :
+	// Threads :
+	private List<Server> activeServers = new ArrayList<>();
+	private List<Thread> serverThreads = new ArrayList<>();
 	
 	
 	// To send info to the controller :
@@ -47,7 +52,7 @@ public class QueueInterface extends Application implements Observers {
 		// eg. the queue, servers' stats...
 		Platform.runLater(() -> {
 			try {
-				updateQueue(SharedQueue.getInstance().getQueue());
+				updateServers(activeServers);
 		        //updateServers(SharedQueue.getInstance().getQueue());		
 			}catch(Exception e) {}       	
 		});
@@ -79,12 +84,15 @@ public class QueueInterface extends Application implements Observers {
 	    }
 	    myQueueDisplay.getChildren().addAll(numberInQueue, myQueue_Categories);
 	}
-	private void updateServers(Queue<Server> servers) {
+	
+	
+	private void updateServers(List<Server> servers) {
 	    myServersDisplay.getChildren().clear();
 	    for (Server s : servers) {
 	        addServerPanel(s);
 	    }
 	}
+
 	
 	
 	private void addServerPanel(Server s) {
@@ -97,7 +105,12 @@ public class QueueInterface extends Application implements Observers {
 		Label nameLabel = new Label("Server : " + s.getName());
 		nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 		
-		Label taskLabel = new Label("Status : " + s.getIsServingWho()==null ? "Available" : ("Is serving : "+s.getIsServingWho().getName()));
+		String statusText = (s.getIsServingWho() == null)
+			    ? "Available"
+			    : "Is serving: " + s.getIsServingWho().getName();
+
+			Label taskLabel = new Label("Status: " + statusText);
+
 
 		VBox order = new VBox();
 		// TODO : complete here to show order...
@@ -105,6 +118,47 @@ public class QueueInterface extends Application implements Observers {
 		serverBox.getChildren().addAll(nameLabel, taskLabel, order);
 		myServersDisplay.getChildren().add(serverBox);
 	}
+	
+	private void startAutoUpdate() {
+	    Thread uiUpdater = new Thread(() -> {
+	        while (true) {
+	            try {
+	                Thread.sleep(1000); // update every second
+	                Platform.runLater(() -> {
+	                    try {
+	                        updateQueue(SharedQueue.getInstance().getQueue());
+	                        updateServers(activeServers);
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
+	                });
+	            } catch (InterruptedException e) {
+	                break;
+	            }
+	        }
+	    });
+	    uiUpdater.setDaemon(true);
+	    uiUpdater.start();
+	}
+
+	
+	
+	public void startSimulation(int numServers) {
+	    for (int i = 1; i <= numServers; i++) {
+	        Server s = new Server("Server " + i);
+	        activeServers.add(s);
+
+	        ServerThread serverThread = new ServerThread(s, i); // assuming you already created this class
+	        Thread t = new Thread(serverThread);
+	        t.start();
+	        serverThreads.add(t);
+
+	        addServerPanel(s);
+	    }
+
+	    startAutoUpdate(); // starts refreshing GUI every second
+	}
+
 	
 	/**
 	 * Init the scene
@@ -171,12 +225,12 @@ public class QueueInterface extends Application implements Observers {
         primaryStage.show();
         
         // TODO : remove :
-        Tests();
+        startSimulation(3);
 	}
 	
 	
 	// TODO : remove
-	public void Tests() {
+	/** public void Tests() {
 		Customer c = new Customer("Jeremy");
         Customer c1 = new Customer("Jeremy2.0_buthungrier");
         Customer c2 = new Customer("Jeremy3.0_isWaiting...");
@@ -196,7 +250,7 @@ public class QueueInterface extends Application implements Observers {
         Update();
         addServerPanel(s);
         addServerPanel(s1);
-	}
+	} **/
 	
 	public static void main(String[] args) {
         launch(args);        

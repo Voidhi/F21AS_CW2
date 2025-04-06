@@ -85,9 +85,9 @@ public class QueueInterface extends Application implements Observers {
 		Scene scene = new Scene(screen, 500, 700);
 		primaryStage.setTitle("Coffee Shop");
         primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(e -> {
-        	e.consume();
+        primaryStage.setOnCloseRequest(e -> {        	
         	//TODO : send report here
+        	//e.consume();
         });
         primaryStage.show();
 	}

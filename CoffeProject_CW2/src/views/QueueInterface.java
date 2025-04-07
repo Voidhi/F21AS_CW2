@@ -4,6 +4,7 @@ import models.MyData;
 import models.Server;
 import models.SharedQueue;
 import models.Customer;
+import models.Log;
 
 
 import java.awt.event.ActionListener;
@@ -209,9 +210,9 @@ public class QueueInterface extends Application implements Observers {
 		Scene scene = new Scene(screen, 430, 500);
 		primaryStage.setTitle("Coffee Shop");
         primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(e -> {        	
-        	//TODO : send report here
-        	//e.consume();
+        primaryStage.setOnCloseRequest(e -> {
+			Log.getInstance().writeToFile("server_test_log.txt");
+			System.out.println("Test complete. Logs written to server_test_log.txt");
         });
         primaryStage.show();
         MyData.getInstance().addObserver(this);

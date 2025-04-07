@@ -21,8 +21,8 @@ public class DocumentManager {
      * @return items - the LinkedList of items
      */
 
-    private static final String pathItems = "src/main/java/org/example/resources/Items.csv";
-    private static final String pathCommands = "src/main/java/org/example/resources/Commands.csv";
+    private static final String pathItems = "src/resources/Items.csv";
+    private static final String pathCommands = "src/resources/Commands.csv";
     private static HashMap<Customer,Integer> customerOrders;
     public static HashMap<String,Items> ReadItemsCsv() { //This method reads the Items.csv file and returns the according list of items.
         HashMap<String,Items> items = new HashMap<>(); // The list of all available items

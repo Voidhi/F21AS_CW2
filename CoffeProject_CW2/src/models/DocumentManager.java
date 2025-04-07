@@ -2,6 +2,11 @@ package models;
 
 import exceptions.InvalidIDException;
 import items.*;
+import items.Factories.ColdDrinkFactory;
+import items.Factories.OthersFactory;
+import items.Factories.PastryFactory;
+import items.Factories.SnackFactory;
+import items.Factories.WarmDrinkFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

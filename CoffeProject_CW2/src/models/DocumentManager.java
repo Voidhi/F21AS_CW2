@@ -33,23 +33,33 @@ public class DocumentManager {
                 lineInfo = br.readLine().split(","); //read the data in the line
                 String tmpStartWIth = lineInfo[0].substring(0, 3);
                 switch(tmpStartWIth) {
-	                case "WDR":
-	                	items.put(lineInfo[0],new WarmDrink(lineInfo[0], lineInfo[1], Float.parseFloat(lineInfo[2]), lineInfo[3]));
-	                	break;
-	                case "CDR":
-	                	items.put(lineInfo[0],new ColdDrink(lineInfo[0], lineInfo[1], Float.parseFloat(lineInfo[2]), lineInfo[3]));
-	                	break;
-	                case "PST":
-	                	items.put(lineInfo[0],new Pastry(lineInfo[0], lineInfo[1], Float.parseFloat(lineInfo[2]), lineInfo[3]));
-	                	break;
-	                case "SNK":
-	                	items.put(lineInfo[0],new Snack(lineInfo[0], lineInfo[1], Float.parseFloat(lineInfo[2]), lineInfo[3]));
-	                	break;
-	                case "OTH":
-	                	items.put(lineInfo[0],new Others(lineInfo[0], lineInfo[1], Float.parseFloat(lineInfo[2]), lineInfo[3]));
-	                	break;
-	                default :
-	                	throw new InvalidIDException("Invalid ID : does not recognize product type");
+                    case "WDR":
+                        ItemsFactory warmDrinkFactory = new WarmDrinkFactory();
+                        Items warmDrink = warmDrinkFactory.createItem(lineInfo[0], lineInfo[1], Float.parseFloat(lineInfo[2]), lineInfo[3]);
+                        items.put(lineInfo[0],warmDrink);
+                        break;
+                    case "CDR":
+                        ItemsFactory coldDrinkFactory = new ColdDrinkFactory();
+                        Items coldDrink = coldDrinkFactory.createItem(lineInfo[0], lineInfo[1], Float.parseFloat(lineInfo[2]), lineInfo[3]);
+                        items.put(lineInfo[0],coldDrink);
+                        break;
+                    case "PST":
+                        ItemsFactory pastryFactory = new PastryFactory();
+                        Items pastry = pastryFactory.createItem(lineInfo[0], lineInfo[1], Float.parseFloat(lineInfo[2]), lineInfo[3]);
+                        items.put(lineInfo[0],pastry);
+                        break;
+                    case "SNK":
+                        ItemsFactory snackFactory = new SnackFactory();
+                        Items snack = snackFactory.createItem(lineInfo[0], lineInfo[1], Float.parseFloat(lineInfo[2]), lineInfo[3]);
+                        items.put(lineInfo[0],snack);
+                        break;
+                    case "OTH":
+                        ItemsFactory othersFactory = new OthersFactory();
+                        Items others = othersFactory.createItem(lineInfo[0], lineInfo[1], Float.parseFloat(lineInfo[2]), lineInfo[3]);
+                        items.put(lineInfo[0],others);
+                        break;
+                    default :
+                        throw new InvalidIDException("Invalid ID : does not recognize product type");
                 }
             }
             br.close();
@@ -110,24 +120,24 @@ public class DocumentManager {
             br.readLine(); //Skip first line
             HashMap<String,Items> itemList = ReadItemsCsv();
             while(br.ready()){
-            	
+
                 lineInfo = br.readLine().split(",");
                 String customerID = lineInfo[0];
                 String itemID = lineInfo[2];
                 if(itemList.containsKey(itemID)) {
-                	Items item = itemList.get(itemID);
-                	itemCounts.put(itemID, itemCounts.getOrDefault(itemID, 0) + 1);
+                    Items item = itemList.get(itemID);
+                    itemCounts.put(itemID, itemCounts.getOrDefault(itemID, 0) + 1);
                     customerOrders.putIfAbsent(customerID, new ArrayList<>());
                     customerOrders.get(customerID).add(item);
                 }
             }
             br.close();
-            
+
             for (String customerID : customerOrders.keySet()) {
                 Order order = new Order(customerID, customerOrders.get(customerID), new Date());
-                totalRevenue += order.calculatePrice(); 
+                totalRevenue += order.calculatePrice();
             }
-            
+
             // Save report to file
             new File("summary_report.txt").delete();
             FileWriter fw = new FileWriter("summary_report.txt");

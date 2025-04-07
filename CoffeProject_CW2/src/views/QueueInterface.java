@@ -137,7 +137,6 @@ public class QueueInterface extends Application implements Observers {
 
 	public void startSimulation(int numServers, int numCustomers) {
 		HashMap<String,Customer> customerHashMap = DocumentManager.CreateCustomers();
-		HashMap<Customer,Integer> customerOrders = DocumentManager.getCustomerOrders(); //returns how many items each customer have ordered
 		for (Map.Entry<String, Customer> entry : customerHashMap.entrySet()) {
 			Customer customer = entry.getValue();
 			customerList.add(customer);

@@ -2,11 +2,7 @@ package models;
 
 import exceptions.InvalidIDException;
 import items.*;
-import items.Factories.ColdDrinkFactory;
-import items.Factories.OthersFactory;
-import items.Factories.PastryFactory;
-import items.Factories.SnackFactory;
-import items.Factories.WarmDrinkFactory;
+import items.Factories.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,8 +21,9 @@ public class DocumentManager {
      * @return items - the LinkedList of items
      */
 
-    private static final String pathItems = "src/resources/Items.csv";
-    private static final String pathCommands = "src/resources/Commands.csv";
+    private static final String pathItems = "src/main/java/org/example/resources/Items.csv";
+    private static final String pathCommands = "src/main/java/org/example/resources/Commands.csv";
+    private static HashMap<Customer,Integer> customerOrders;
     public static HashMap<String,Items> ReadItemsCsv() { //This method reads the Items.csv file and returns the according list of items.
         HashMap<String,Items> items = new HashMap<>(); // The list of all available items
         String[] lineInfo = null; //gets all the data from a line, allowing to create the according item
@@ -164,5 +161,39 @@ public class DocumentManager {
         catch (Exception e) {
             System.out.println("Error " + e);
         }
+    }
+
+    //This methods reads the Commands.csv and creates the correct number of customers and add their command
+    public static HashMap<String,Customer> CreateCustomers(){
+        HashMap<String,Customer> customers = new HashMap<>();
+        customerOrders = new HashMap<>();
+        String[] lineInfo = null; //gets all the data from a line, allowing to create the according customer
+        try{
+            FileReader fr = new FileReader(pathCommands);
+            BufferedReader br = new BufferedReader(fr);
+            br.readLine(); //Skip first line
+            while (br.ready()){
+                lineInfo = br.readLine().split(","); //read the data in the line
+                if(!customers.containsKey(lineInfo[0])){ // Create customer only if he's not already in the map
+                    customers.put(lineInfo[0],new Customer(lineInfo[0]));
+                    customerOrders.put(customers.get(lineInfo[0]),1); //Initialize to one the number of ordered items
+                }
+                else{
+                    // Get the current order count for the customer
+                    Integer currentOrders = customerOrders.get(customers.get(lineInfo[0]));
+
+                    // Increment the order count
+                    customerOrders.put(customers.get(lineInfo[0]), currentOrders + 1);
+                }
+            }
+            br.close();
+        } catch (Exception e) {
+            System.out.println("Error " + e);
+        }
+        return customers;
+    }
+
+    public static HashMap<Customer, Integer> getCustomerOrders() {
+        return customerOrders;
     }
 }

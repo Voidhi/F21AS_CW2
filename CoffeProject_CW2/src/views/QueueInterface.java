@@ -62,8 +62,7 @@ public class QueueInterface extends Application implements Observers {
 		Platform.runLater(() -> {
 			try {
 				updateQueue(SharedQueue.getInstance().getQueue());
-				updateServers(activeServers);
-		        //updateServers(SharedQueue.getInstance().getQueue());		
+				updateServers(activeServers);		
 			}catch(Exception e) {}       	
 		});
 	}

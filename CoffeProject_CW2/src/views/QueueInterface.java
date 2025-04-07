@@ -1,5 +1,6 @@
 package views;
 
+import controllers.CustomerThread;
 import models.MyData;
 import models.Server;
 import models.SharedQueue;
@@ -41,6 +42,8 @@ public class QueueInterface extends Application implements Observers {
 	// Threads :
 	private List<Server> activeServers = new ArrayList<>();
 	private List<ServerThread> serverThreads = new ArrayList<>();
+	private ArrayList<Customer> customerList = new ArrayList<>();
+	private CustomerThread customerThread;
 	
 	
 	private Runnable onSwitch;
@@ -135,7 +138,7 @@ public class QueueInterface extends Application implements Observers {
 			customerList.add(new Customer("c" +i));
 		}
 
-		CustomerThread customerThread = new CustomerThread(customerList,2000);
+		customerThread = new CustomerThread(customerList,2000);
 		Thread threadCustomer = new Thread(customerThread);
 		threadCustomer.start();
 

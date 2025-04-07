@@ -37,8 +37,8 @@ public class ServerThread implements Runnable {
                 server.assignNewCustomer(customer);  // sets isServingWho
                 logger.logAndPrint("Server " + id + " is now serving " + customer.getName());
 
-                // Simulate order processing time (2–4 seconds)
-                int delay = (int)((2000 + Math.random() * 2000)/speed);
+                // Simulate order processing time (4–8 seconds)
+                int delay = (int)((4000 + Math.random() * 4000)/speed);
                 Thread.sleep(delay);
 
                 logger.logAndPrint("Server " + id + " finished serving " + customer.getName());

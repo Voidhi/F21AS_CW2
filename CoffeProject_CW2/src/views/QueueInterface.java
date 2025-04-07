@@ -129,20 +129,28 @@ public class QueueInterface extends Application implements Observers {
 		myServersDisplay.getChildren().add(serverBox);
 	}
 
-	
-	
-	public void startSimulation(int numServers) {
-	    for (int i = 1; i <= numServers; i++) {
-	        Server s = new Server("Server " + i);
-	        activeServers.add(s);
 
-	        ServerThread serverThread = new ServerThread(s, i); // assuming you already created this class
-	        Thread t = new Thread(serverThread);
-	        t.start();
-	        serverThreads.add(t);
 
-	        addServerPanel(s);
-	    }
+	public void startSimulation(int numServers, int numCustomers) {
+		for(int i = 0; i < numCustomers ; i++){
+			customerList.add(new Customer("c" +i));
+		}
+
+		CustomerThread customerThread = new CustomerThread(customerList,2000);
+		Thread threadCustomer = new Thread(customerThread);
+		threadCustomer.start();
+
+		for (int i = 1; i <= numServers; i++) {
+			Server s = new Server("Server " + i);
+			activeServers.add(s);
+
+			ServerThread serverThread = new ServerThread(s, i); // assuming you already created this class
+			Thread t = new Thread(serverThread);
+			t.start();
+			serverThreads.add(serverThread);
+
+			addServerPanel(s);
+		}
 	}
 
 	

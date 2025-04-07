@@ -4,6 +4,7 @@ import controllers.CustomerThread;
 import models.MyData;
 import models.Server;
 import models.SharedQueue;
+import models.SimulationMonitor;
 import models.Customer;
 import models.Log;
 
@@ -153,6 +154,12 @@ public class QueueInterface extends Application implements Observers {
 
 			addServerPanel(s);
 		}
+		
+		
+	    SimulationMonitor monitor = new SimulationMonitor(activeServers);
+	    Thread monitorThread = new Thread(monitor);
+	    monitorThread.setDaemon(true);
+	    monitorThread.start();
 	}
 
 	
@@ -228,7 +235,7 @@ public class QueueInterface extends Application implements Observers {
         MyData.getInstance().addObserver(this);
         
         // TODO : remove :
-        startSimulation(3);
+        startSimulation(3,6);
 	}
 	
 	

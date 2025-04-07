@@ -1,1 +1,38 @@
+<<<<<<< Updated upstream
 [2025-04-07T13:44:07.253882400] Manual order added to queue: C0003
+=======
+[2025-04-07T14:55:31.241293700] Customer 0 is now in the queue.
+[2025-04-07T14:55:31.249284200] Server 3 started.
+[2025-04-07T14:55:31.249284200] Server 2 started.
+[2025-04-07T14:55:31.250275800] Server 1 started.
+[2025-04-07T14:55:31.252586400] Server 1 is now serving c0
+[2025-04-07T14:55:33.253228200] Customer 1 is now in the queue.
+[2025-04-07T14:55:33.253228200] Server 2 is now serving c1
+[2025-04-07T14:55:35.254201800] Customer 2 is now in the queue.
+[2025-04-07T14:55:35.255200] Server 3 is now serving c2
+[2025-04-07T14:55:37.256395900] Customer 3 is now in the queue.
+[2025-04-07T14:55:38.882483] Customer 0 is now in the queue.
+[2025-04-07T14:55:38.882483] Server 1 started.
+[2025-04-07T14:55:38.883464500] Server 1 is now serving c3
+[2025-04-07T14:55:38.884584400] Server 2 started.
+[2025-04-07T14:55:38.885562200] Server 2 is now serving c0
+[2025-04-07T14:55:38.885846900] Server 3 started.
+[2025-04-07T14:55:39.070968600] Server 1 finished serving c0
+[2025-04-07T14:55:39.257416] Customer 4 is now in the queue.
+[2025-04-07T14:55:39.257416] Server 3 is now serving c4
+[2025-04-07T14:55:40.883355400] Customer 1 is now in the queue.
+[2025-04-07T14:55:40.884295100] Server 1 is now serving c1
+[2025-04-07T14:55:41.235202600] Server 2 finished serving c1
+[2025-04-07T14:55:41.258802300] Customer 5 is now in the queue.
+[2025-04-07T14:55:41.258802300] Server 2 is now serving c5
+[2025-04-07T14:55:41.671424100] Server 3 finished serving c2
+[2025-04-07T14:55:42.884599500] Customer 2 is now in the queue.
+[2025-04-07T14:55:42.884599500] Server 3 is now serving c2
+[2025-04-07T14:55:43.710068500] Server 3 finished serving c4
+[2025-04-07T14:55:44.079620500] Server 1 finished serving c3
+[2025-04-07T14:55:44.079620500] Server 1 stopped.
+[2025-04-07T14:55:44.885415300] Customer 3 is now in the queue.
+[2025-04-07T14:55:44.886254800] Server 3 is now serving c3
+[2025-04-07T14:55:45.423767900] Server 1 finished serving c1
+[2025-04-07T14:55:45.423767900] Server 1 stopped.
+>>>>>>> Stashed changes

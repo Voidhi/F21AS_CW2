@@ -204,9 +204,28 @@ public class QueueInterface extends Application implements Observers {
 		Button switchButton = new Button("Switch to Command View");
         switchButton.setOnAction(e -> onSwitch.run());
         Button addStaff = new Button("Add a serving Staff");
-        // addStaff.setOnAction(e -> );
+        addStaff.setOnAction(e -> {
+            int newIndex = activeServers.size() + 1;
+            Server newServer = new Server("Server " + newIndex);
+            activeServers.add(newServer);
+            ServerThread newServerThread = new ServerThread(newServer, newIndex);
+            Thread t = new Thread(newServerThread);
+            t.start();
+            serverThreads.add(newServerThread);
+            addServerPanel(newServer);
+        });
         Button removeStaff = new Button("Remove a serving Staff");
-        // removeStaff.setOnAction(e -> );
+        removeStaff.setOnAction(e -> {
+            if (!activeServers.isEmpty()) {
+                int lastIndex = activeServers.size() - 1;
+                ServerThread st = serverThreads.get(lastIndex);
+                st.StopServing();
+                serverThreads.remove(lastIndex);
+                activeServers.remove(lastIndex);
+                myServersDisplay.getChildren().clear();
+                updateServers(activeServers);
+            }
+        });
         
 		setSimulationSlider = new Slider(0.5, 3.0, 1.0);
 		setSimulationSlider.setMaxWidth(Double.MAX_VALUE);

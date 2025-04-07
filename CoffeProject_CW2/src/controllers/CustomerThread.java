@@ -31,8 +31,8 @@ public class CustomerThread implements Runnable{
                
                 Thread.sleep(delay);
                 if(id == customer.size() - 1) {
+                    SharedQueue.AllCustomersAdded();
                 	running = false; //Stop the thread once every customer has been added
-                        //TODO : add a method to add new customers that put running into true again for server and customer thread
                 }
             }
             catch (InterruptedException e) {

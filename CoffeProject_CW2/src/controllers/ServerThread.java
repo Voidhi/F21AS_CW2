@@ -67,4 +67,8 @@ public class ServerThread implements Runnable {
         running = false;
         stopServing = true;
     }
+
+    public void StopServing(){
+        stopServing = true;
+    }
 }

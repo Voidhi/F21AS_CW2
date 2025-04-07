@@ -7,6 +7,7 @@ import java.util.Queue;
 public class SharedQueue {
 	// Singleton :
 	private static SharedQueue myInstance;
+    private static boolean allCustomersAdded = false; // Checks that all customers have been served or are currently in the queue before authorizing servers to stop processing commands
 		
     private final Queue<Customer> queue = new LinkedList<>();
     private final int capacity = 10; // optional max queue size
@@ -70,5 +71,12 @@ public class SharedQueue {
 
     public synchronized int size() {
         return queue.size();
+    }
+    public synchronized boolean getAllCustomersAdded(){
+        return allCustomersAdded;
+    }
+
+    public static synchronized void AllCustomersAdded(){
+        allCustomersAdded = true;
     }
 }

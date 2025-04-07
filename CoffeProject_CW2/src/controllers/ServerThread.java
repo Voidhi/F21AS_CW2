@@ -2,6 +2,7 @@ package controllers;
 
 import models.Customer;
 import models.Log;
+import models.MyData;
 import models.Server;
 import models.SharedQueue;
 
@@ -41,6 +42,7 @@ public class ServerThread implements Runnable {
 
                 logger.logAndPrint("Server " + id + " finished serving " + customer.getName());
                 server.makeAvailable();  // clear current customer
+                MyData.getInstance().notifyObservers();
 
                 if(SharedQueue.getInstance().isEmpty()){ //TODO : add second condition verifying that we do want to end the program (if more customers arrives later, we do not want to immediately cut the program)
                     running = false; // Stop the program when there are no more customers

@@ -145,6 +145,21 @@ public class CommandInterface extends Application {
         try {
             Order order = new Order(customerIdField.getText(), selectedItems, new Date());
             DocumentManager.writeOneCommandCSV(order);
+            try {
+                // Create a new customer object from the order
+                Customer customer = new Customer(order.getCustomerID());
+                
+                // Add the customer to the simulation queue
+                SharedQueue.getInstance().enqueue(customer);
+
+                // Log the event
+                Log.getInstance().logAndPrint("Manual order added to queue: " + customer.getName());
+
+            } catch (InterruptedException ex) {
+                Log.getInstance().logAndPrint("Failed to add manual order: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+
         } catch (InvalidIDException e) {
             showAlert(e.getMessage());
             return;

@@ -1,19 +1,28 @@
-[2025-04-07T12:59:39.109473200] Customer 0 is now in the queue.
-[2025-04-07T12:59:39.114480200] Server 3 started.
-[2025-04-07T12:59:39.114480200] Server 2 started.
-[2025-04-07T12:59:39.114480200] Server 1 started.
-[2025-04-07T12:59:39.119145700] Server 1 is now serving c0
-[2025-04-07T12:59:41.115604300] Customer 1 is now in the queue.
-[2025-04-07T12:59:41.115604300] Server 2 is now serving c1
-[2025-04-07T12:59:43.116654500] Customer 2 is now in the queue.
-[2025-04-07T12:59:43.116654500] Server 3 is now serving c2
-[2025-04-07T12:59:43.573436] Server 1 finished serving c0
-[2025-04-07T12:59:45.119449500] Customer 3 is now in the queue.
-[2025-04-07T12:59:45.119449500] Server 1 is now serving c3
-[2025-04-07T12:59:47.121184200] Customer 4 is now in the queue.
-[2025-04-07T12:59:48.135872400] Server 2 finished serving c1
-[2025-04-07T12:59:48.135872400] Server 2 is now serving c4
-[2025-04-07T12:59:48.928155300] Server 3 finished serving c2
-[2025-04-07T12:59:51.403905700] Server 1 finished serving c3
-[2025-04-07T12:59:53.827743400] Server 2 finished serving c4
-[2025-04-07T12:59:54.117613] Simulation finished: queue is empty and all servers are idle.
+[2025-04-07T13:49:58.621091800] Customer 0 is now in the queue.
+[2025-04-07T13:49:58.627599800] Server 3 started.
+[2025-04-07T13:49:58.627599800] Server 2 started.
+[2025-04-07T13:49:58.627599800] Server 1 started.
+[2025-04-07T13:49:58.630607100] Server 1 is now serving c0
+[2025-04-07T13:50:00.630321500] Customer 1 is now in the queue.
+[2025-04-07T13:50:00.630321500] Server 2 is now serving c1
+[2025-04-07T13:50:02.630820200] Customer 2 is now in the queue.
+[2025-04-07T13:50:02.630820200] Server 3 is now serving c2
+[2025-04-07T13:50:04.631037400] Customer 3 is now in the queue.
+[2025-04-07T13:50:04.679565600] Server 1 finished serving c0
+[2025-04-07T13:50:04.679565600] Server 1 is now serving c3
+[2025-04-07T13:50:06.631698] Customer 4 is now in the queue.
+[2025-04-07T13:50:07.689690400] Server 2 finished serving c1
+[2025-04-07T13:50:07.689690400] Server 2 is now serving c4
+[2025-04-07T13:50:08.632652900] Customer 5 is now in the queue.
+[2025-04-07T13:50:10.234515800] Server 3 finished serving c2
+[2025-04-07T13:50:10.234515800] Server 3 is now serving c5
+[2025-04-07T13:50:10.699964700] Server 1 finished serving c3
+[2025-04-07T13:50:12.580302500] Server 2 finished serving c4
+[2025-04-07T13:50:12.580302500] Server 2 stopped.
+[2025-04-07T13:50:13.062709300] Manual order added to queue: C0050
+[2025-04-07T13:50:13.063724200] Server 1 is now serving C0050
+[2025-04-07T13:50:17.333377700] Server 3 finished serving c5
+[2025-04-07T13:50:17.333377700] Server 3 stopped.
+[2025-04-07T13:50:20.688757400] Server 1 finished serving C0050
+[2025-04-07T13:50:20.688757400] Server 1 stopped.
+[2025-04-07T13:50:21.627400300] Simulation finished: queue is empty and all servers are idle.

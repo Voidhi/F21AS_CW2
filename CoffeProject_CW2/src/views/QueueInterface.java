@@ -242,8 +242,8 @@ public class QueueInterface extends Application implements Observers {
         primaryStage.show();
         MyData.getInstance().addObserver(this);
         
-        // TODO : remove :
-        startSimulation(3,6);
+        // change the number of servers and customers here (numServ, numCustom)
+        startSimulation(3,15);
 	}
 	
 	

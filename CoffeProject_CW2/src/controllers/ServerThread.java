@@ -11,6 +11,7 @@ public class ServerThread implements Runnable {
     private boolean running = true;
     private int id;
     private double speed = 1; // Modify the speed at which servers are able to process commands
+    private boolean stopServing = false; // Stops the server when we want him to stop processing commands
 
     public ServerThread(Server server, int id) {
         this.server = server;
@@ -42,7 +43,7 @@ public class ServerThread implements Runnable {
                 logger.logAndPrint("Server " + id + " finished serving " + customer.getName());
                 server.makeAvailable();  // clear current customer
 
-                if(SharedQueue.getInstance().isEmpty()){ //TODO : add second condition verifying that we do want to end the program (if more customers arrives later, we do not want to immediately cut the program)
+                if(SharedQueue.getInstance().isEmpty() && stopServing){ //TODO : add second condition verifying that we do want to end the program (if more customers arrives later, we do not want to immediately cut the program)
                     running = false; // Stop the program when there are no more customers
                 }
 
@@ -62,5 +63,6 @@ public class ServerThread implements Runnable {
 
     public void stop() {
         running = false;
+        stopServing = true;
     }
 }

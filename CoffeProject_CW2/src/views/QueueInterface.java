@@ -40,7 +40,7 @@ public class QueueInterface extends Application implements Observers {
 	// Data :
 	// Threads :
 	private List<Server> activeServers = new ArrayList<>();
-	private List<Thread> serverThreads = new ArrayList<>();
+	private List<ServerThread> serverThreads = new ArrayList<>();
 	
 	
 	private Runnable onSwitch;

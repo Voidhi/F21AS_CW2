@@ -90,9 +90,9 @@ public class QueueInterface extends Application implements Observers {
 	    	Label name = new Label(c.getName());
 	        name.setStyle("-fx-font-size: 12px;");
 	        myQueue_CustomersNames.getChildren().add(name);
-	        
-	        // TODO : display " _nbitems_ items" here
-	        Label items = new Label("has ___ items");
+
+			HashMap<Customer,Integer> customerOrders = DocumentManager.getCustomerOrders(); //returns how many items each customer have ordered
+			Label items = new Label("has " + customerOrders.get(c) + " items");
 	        items.setStyle("-fx-font-size: 12px;");
 	        myQueue_CustomersItems.getChildren().add(items);
 	    }

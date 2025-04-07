@@ -5,10 +5,15 @@ public class ServerThread implements Runnable {
     private Server server; // existing Server object
     private boolean running = true;
     private int id;
+    private double speed = 1; // Modify the speed at which servers are able to process commands
 
     public ServerThread(Server server, int id) {
         this.server = server;
         this.id = id;
+    }
+
+    public void setSpeed(double speed){
+        this.speed = speed;
     }
 
     @Override
@@ -26,7 +31,7 @@ public class ServerThread implements Runnable {
                 logger.logAndPrint("Server " + id + " is now serving " + customer.getName());
 
                 // Simulate order processing time (2–4 seconds)
-                int delay = (int)(2000 + Math.random() * 2000);
+                int delay = (int)((2000 + Math.random() * 2000)/speed);
                 Thread.sleep(delay);
 
                 logger.logAndPrint("Server " + id + " finished serving " + customer.getName());

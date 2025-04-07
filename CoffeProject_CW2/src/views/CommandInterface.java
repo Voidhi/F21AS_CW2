@@ -145,7 +145,6 @@ public class CommandInterface extends Application {
         try {
             Order order = new Order(customerIdField.getText(), selectedItems, new Date());
             DocumentManager.writeOneCommandCSV(order);
-            generateBill(order);
         } catch (InvalidIDException e) {
             showAlert(e.getMessage());
             return;
@@ -154,24 +153,6 @@ public class CommandInterface extends Application {
         orderListView.getItems().clear();
         totalLabel.setText("Total: £0.00");
         customerIdField.clear();
-    }
-
-    private void generateBill(Order order) {
-        String bill = "Coffee Shop Bill\n";
-        bill += "Customer ID: " + order.getCustomerID() + "\n";
-        bill += "Order Time: " + order.toString() + "\n";
-        bill += "--------------------------------\n";
-        for (Items item : order.getOrderList()) {
-            bill += item.get_Name() + " - £" + item.get_pricePerUnit() + "\n";
-        }
-        bill += "--------------------------------\n";
-        bill += "Total: £" + String.format("%.2f", order.calculatePrice());
-
-        Alert billAlert = new Alert(Alert.AlertType.INFORMATION);
-        billAlert.setTitle("Bill");
-        billAlert.setHeaderText("Order Bill");
-        billAlert.setContentText(bill);
-        billAlert.showAndWait();
     }
 
     private void showAlert(String message) {

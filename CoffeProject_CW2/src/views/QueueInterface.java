@@ -67,6 +67,9 @@ public class QueueInterface extends Application implements Observers {
 			try {
 				updateQueue(SharedQueue.getInstance().getQueue());
 				updateServers(activeServers);
+				for(int i = 0; i < serverThreads.size(); i++) {
+					serverThreads.get(i).setSpeed(setSimulationSlider.getValue());
+				}
 				if(SharedQueue.getInstance().getAllCustomersAdded()){ //if they are no more customers to be added to the list, stop the program once all remaining commands have been processed
 					for(int i = 0; i < serverThreads.size(); i++) {
 						serverThreads.get(i).StopServing();

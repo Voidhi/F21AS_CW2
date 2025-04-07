@@ -32,6 +32,10 @@ public class ServerThread implements Runnable {
                 logger.logAndPrint("Server " + id + " finished serving " + customer.getName());
                 server.makeAvailable();  // clear current customer
 
+                if(SharedQueue.getInstance().isEmpty()){ //TODO : add second condition verifying that we do want to end the program (if more customers arrives later, we do not want to immediately cut the program)
+                    running = false; // Stop the program when there are no more customers
+                }
+
                 // Optional: notify GUI observers here
 
             } catch (InterruptedException e) {

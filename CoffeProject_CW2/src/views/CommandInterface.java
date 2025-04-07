@@ -4,6 +4,7 @@ import exceptions.InvalidIDException;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -24,6 +25,13 @@ public class CommandInterface extends Application {
     private Label totalLabel;
     private ArrayList<Items> selectedItems = new ArrayList<>();
 
+    private Runnable onSwitch;
+
+    public CommandInterface(Runnable onSwitch) {
+        this.onSwitch = onSwitch;
+    }
+    
+    
     @SuppressWarnings("unused")
 	@Override
     public void start(Stage primaryStage) {
@@ -46,8 +54,14 @@ public class CommandInterface extends Application {
         totalLabel = new Label("Total: £0.00");
         Button confirmButton = new Button("Confirm Order");
         confirmButton.setOnAction(e -> confirmOrder());
-        VBox layout = new VBox(10, customerLabel, customerIdField, itemComboBox, quantitySpinner, addButton, orderListView, resetButton, totalLabel, confirmButton);
+        
+        Button switchButton = new Button("Switch to Simulation View");
+        switchButton.setOnAction(e -> onSwitch.run());
+        
+        VBox layout = new VBox(10, customerLabel, customerIdField, itemComboBox, quantitySpinner, addButton, orderListView, resetButton, totalLabel, confirmButton, switchButton);
         layout.setPadding(new Insets(10));
+        layout.setAlignment(Pos.CENTER);
+        
         Scene scene = new Scene(layout, 400, 600);
         primaryStage.setTitle("Coffee Shop");
         primaryStage.setScene(scene);

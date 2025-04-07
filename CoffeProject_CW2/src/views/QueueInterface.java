@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
@@ -30,7 +31,7 @@ public class QueueInterface extends Application implements Observers {
 	private HBox myQueue_Categories;
 	private VBox myQueue_CustomersNames;
 	private VBox myQueue_CustomersItems;
-	private TilePane myServersDisplay; // scrollable
+	private TilePane myServersDisplay;
 	private Label title;
 	private Slider setSimulationSlider;
 	// Event : 
@@ -41,15 +42,22 @@ public class QueueInterface extends Application implements Observers {
 	private List<Thread> serverThreads = new ArrayList<>();
 	
 	
+	private Runnable onSwitch;
+	public QueueInterface(Runnable onSwitch) {
+	    this.onSwitch = onSwitch;
+	}
+	
+	
 	// To send info to the controller :
 	public void addSetListener(ActionListener al) {
 		// TODO : link buttons to event :
 		// eg : mySlider.addActionListener(al);
 	}
-	// To receive info from the models directly :
+	/**
+	 * To receive info from the models directly and update the view:
+	 * eg. the queue, servers' status...
+	 */
 	public void Update() {
-		// to update the info on the view
-		// eg. the queue, servers' stats...
 		Platform.runLater(() -> {
 			try {
 				updateServers(activeServers);
@@ -77,7 +85,7 @@ public class QueueInterface extends Application implements Observers {
 	        name.setStyle("-fx-font-size: 12px;");
 	        myQueue_CustomersNames.getChildren().add(name);
 	        
-	        // TODO : affiche " _nbitems_ items" ici quand on aura les orders dans Customer
+	        // TODO : display " _nbitems_ items" here
 	        Label items = new Label("has ___ items");
 	        items.setStyle("-fx-font-size: 12px;");
 	        myQueue_CustomersItems.getChildren().add(items);
@@ -155,7 +163,6 @@ public class QueueInterface extends Application implements Observers {
 
 	        addServerPanel(s);
 	    }
-
 	    startAutoUpdate(); // starts refreshing GUI every second
 	}
 
@@ -190,6 +197,9 @@ public class QueueInterface extends Application implements Observers {
 		myServersDisplay.setVgap(7);
 		myServersDisplay.setPrefColumns(3);
 		
+		Button switchButton = new Button("Switch to Command View");
+        switchButton.setOnAction(e -> onSwitch.run());
+        
 		setSimulationSlider = new Slider(0.5, 3.0, 1.0);
 		setSimulationSlider.setMaxWidth(Double.MAX_VALUE);
 		setSimulationSlider.setShowTickLabels(true);
@@ -198,10 +208,13 @@ public class QueueInterface extends Application implements Observers {
 		setSimulationSlider.setMinorTickCount(0);
 		setSimulationSlider.setBlockIncrement(0.5);
 		setSimulationSlider.setSnapToTicks(true);
-		HBox sliderBox = new HBox(setSimulationSlider);
+		
+		VBox sliderBox = new VBox(setSimulationSlider, switchButton);
 		sliderBox.setAlignment(Pos.CENTER);
 		sliderBox.setPadding(new Insets(20,15,20,15));
 		HBox.setHgrow(setSimulationSlider, Priority.ALWAYS); // so the width can be responsive
+		
+		
 		
 		layout = new VBox(2);
 		layout.setPadding(new Insets(10));
@@ -229,28 +242,6 @@ public class QueueInterface extends Application implements Observers {
 	}
 	
 	
-	// TODO : remove
-	/** public void Tests() {
-		Customer c = new Customer("Jeremy");
-        Customer c1 = new Customer("Jeremy2.0_buthungrier");
-        Customer c2 = new Customer("Jeremy3.0_isWaiting...");
-        Customer c3 = new Customer("Jeremy4.0_isWaitingEvenMore");
-        Server s = new Server("A GreatServer");  
-        Server s1 = new Server("AnotherServer");
-        
-        try {
-        	SharedQueue.getInstance().enqueue(c);
-        	SharedQueue.getInstance().enqueue(c1);
-        	SharedQueue.getInstance().enqueue(c2);
-        	SharedQueue.getInstance().enqueue(c3);
-        	s.assignNewCustomer();
-        	s1.assignNewCustomer();
-        }catch(Exception e) {}        
-
-        Update();
-        addServerPanel(s);
-        addServerPanel(s1);
-	} **/
 	
 	public static void main(String[] args) {
         launch(args);        

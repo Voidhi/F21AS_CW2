@@ -1,6 +1,10 @@
-package models;
+package controllers;
 
 import java.util.ArrayList;
+
+import models.Customer;
+import models.Log;
+import models.SharedQueue;
 
 public class CustomerThread implements Runnable{
 

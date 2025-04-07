@@ -1,4 +1,9 @@
-package models;
+package controllers;
+
+import models.Customer;
+import models.Log;
+import models.Server;
+import models.SharedQueue;
 
 public class ServerThread implements Runnable {
 

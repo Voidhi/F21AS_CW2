@@ -1,6 +1,10 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+
+import views.Observers;
 
 public class MyData implements Observable{
 	// Singleton :
@@ -8,6 +12,12 @@ public class MyData implements Observable{
 
 	private static final String csvPath = "";
 	private SharedQueue myQueue;
+	private final List<Observers> observers = new ArrayList<>();
+	
+	
+	public void addObserver(Observers o) {
+	    observers.add(o);
+	}
 	
 	/**
 	 * Private constructor - Thread-safe singleton
@@ -34,5 +44,9 @@ public class MyData implements Observable{
 	/**
 	 * Observator/MVC pattern
 	 */
-	public void notifyObservers() {}
+	public void notifyObservers() {
+	    for (Observers o : observers) {
+	        o.Update(); // will trigger updateQueue() and updateServers() in GUI
+	    }
+	}
 }

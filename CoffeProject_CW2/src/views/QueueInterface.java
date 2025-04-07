@@ -2,7 +2,6 @@ package views;
 
 import models.MyData;
 import models.Server;
-import models.ServerThread;
 import models.SharedQueue;
 import models.Customer;
 
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
+import controllers.ServerThread;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -60,6 +60,7 @@ public class QueueInterface extends Application implements Observers {
 	public void Update() {
 		Platform.runLater(() -> {
 			try {
+				updateQueue(SharedQueue.getInstance().getQueue());
 				updateServers(activeServers);
 		        //updateServers(SharedQueue.getInstance().getQueue());		
 			}catch(Exception e) {}       	
@@ -126,28 +127,6 @@ public class QueueInterface extends Application implements Observers {
 		serverBox.getChildren().addAll(nameLabel, taskLabel, order);
 		myServersDisplay.getChildren().add(serverBox);
 	}
-	
-	private void startAutoUpdate() {
-	    Thread uiUpdater = new Thread(() -> {
-	        while (true) {
-	            try {
-	                Thread.sleep(1000); // update every second
-	                Platform.runLater(() -> {
-	                    try {
-	                        updateQueue(SharedQueue.getInstance().getQueue());
-	                        updateServers(activeServers);
-	                    } catch (Exception e) {
-	                        e.printStackTrace();
-	                    }
-	                });
-	            } catch (InterruptedException e) {
-	                break;
-	            }
-	        }
-	    });
-	    uiUpdater.setDaemon(true);
-	    uiUpdater.start();
-	}
 
 	
 	
@@ -163,7 +142,6 @@ public class QueueInterface extends Application implements Observers {
 
 	        addServerPanel(s);
 	    }
-	    startAutoUpdate(); // starts refreshing GUI every second
 	}
 
 	
@@ -236,6 +214,7 @@ public class QueueInterface extends Application implements Observers {
         	//e.consume();
         });
         primaryStage.show();
+        MyData.getInstance().addObserver(this);
         
         // TODO : remove :
         startSimulation(3);

@@ -47,6 +47,8 @@ public class SharedQueue {
             wait(); // wait until space is available      
         queue.add(c);
         notifyAll(); // notify consumers
+        
+        MyData.getInstance().notifyObservers();
     }
 
     
@@ -56,6 +58,8 @@ public class SharedQueue {
         }
         Customer c = queue.poll();
         notifyAll(); // notify producer
+        
+        MyData.getInstance().notifyObservers();
         return c;
     }
 

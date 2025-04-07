@@ -203,6 +203,10 @@ public class QueueInterface extends Application implements Observers {
 		
 		Button switchButton = new Button("Switch to Command View");
         switchButton.setOnAction(e -> onSwitch.run());
+        Button addStaff = new Button("Add a serving Staff");
+        // addStaff.setOnAction(e -> );
+        Button removeStaff = new Button("Remove a serving Staff");
+        // removeStaff.setOnAction(e -> );
         
 		setSimulationSlider = new Slider(0.5, 3.0, 1.0);
 		setSimulationSlider.setMaxWidth(Double.MAX_VALUE);
@@ -213,7 +217,7 @@ public class QueueInterface extends Application implements Observers {
 		setSimulationSlider.setBlockIncrement(0.5);
 		setSimulationSlider.setSnapToTicks(true);
 		
-		VBox sliderBox = new VBox(setSimulationSlider, switchButton);
+		VBox sliderBox = new VBox(setSimulationSlider, switchButton, addStaff, removeStaff);
 		sliderBox.setAlignment(Pos.CENTER);
 		sliderBox.setPadding(new Insets(20,15,20,15));
 		HBox.setHgrow(setSimulationSlider, Priority.ALWAYS); // so the width can be responsive
